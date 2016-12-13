@@ -4,7 +4,21 @@ Fssh is based in Vancouver, BC. This is my attempt at the Fish Prediction compet
 # Step 1
 Download data from kaggle.
 
-I put all my data unzipped into directory. Then "mkdir train_split"  and mkdir "val_split". 
+I put all my data unzipped into directory. 
+
+```
+mkdir train_split
+mkdir val_split
+cd train_split
+mkdir ALB
+mkdir BET
+mkdir DOL
+mkdir LAG
+mkdir NoF
+mkdir OTHER
+mkdir SHARK
+mkdir YFT
+```
 
 ```
 /media/datadisk/nature/
