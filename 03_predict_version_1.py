@@ -41,10 +41,10 @@ print('Begin to write submission file ..')
 f_submit = open(os.path.join(root_path, 'submit.csv'), 'w')
 f_submit.write('image,ALB,BET,DOL,LAG,NoF,OTHER,SHARK,YFT\n')
 for i, image_name in enumerate(test_image_list):
-    predictions = ['%.6f' % p for p in predictions[i, :]]
+    preds = ['%.6f' % p for p in predictions[i, :]]
     if i % 100 == 0:
         print('{} / {}'.format(i, nbr_test_samples))
-    f_submit.write('%s,%s\n' % (os.path.basename(image_name), ','.join(predictions)))
+    f_submit.write('%s,%s\n' % (os.path.basename(image_name), ','.join(preds)))
 
 f_submit.close()
 
