@@ -2,7 +2,7 @@
 First portion of the baseline set of scripts to get going.
 I unzipped all training data into train_all_files variable path.
 
-This script will grab all the files from train_all_file path and put 80% into
+This script will grab all the files from train_all_files path and put 80% into
 train_data_dir path and 20% will be saved for val_data_dir
 """
 import os
