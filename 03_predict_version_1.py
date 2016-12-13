@@ -9,8 +9,6 @@ img_height = 299
 batch_size = 32
 nbr_test_samples = 1000
 
-FishNames = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
-
 root_path = '/home/ubuntu/dev/kaggle_fish/'
 test_path = '/media/datadisk/'
 weights_path = os.path.join(root_path, 'weights.h5')
@@ -43,10 +41,10 @@ print('Begin to write submission file ..')
 f_submit = open(os.path.join(root_path, 'submit.csv'), 'w')
 f_submit.write('image,ALB,BET,DOL,LAG,NoF,OTHER,SHARK,YFT\n')
 for i, image_name in enumerate(test_image_list):
-    pred = ['%.6f' % p for p in predictions[i, :]]
+    predictions = ['%.6f' % p for p in predictions[i, :]]
     if i % 100 == 0:
         print('{} / {}'.format(i, nbr_test_samples))
-    f_submit.write('%s,%s\n' % (os.path.basename(image_name), ','.join(pred)))
+    f_submit.write('%s,%s\n' % (os.path.basename(image_name), ','.join(predictions)))
 
 f_submit.close()
 
