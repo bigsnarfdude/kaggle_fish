@@ -39,16 +39,16 @@ for fish in FISHNAMES:
 
     for img in train_images:
         source = os.path.join(train_all_files, fish, img)
-        target = os.path.join(root_train, fish, img)
+        target = os.path.join(train_data_dir, fish, img)
         shutil.copy(source, target)
         nbr_train_samples += 1
 
-    if fish not in os.listdir(root_val):
-        os.mkdir(os.path.join(root_val, fish))
+    if fish not in os.listdir(val_data_dir):
+        os.mkdir(os.path.join(val_data_dir, fish))
 
     for img in val_images:
-        source = os.path.join(root_total, fish, img)
-        target = os.path.join(root_val, fish, img)
+        source = os.path.join(train_all_files, fish, img)
+        target = os.path.join(val_data_dir, fish, img)
         shutil.copy(source, target)
         nbr_val_samples += 1
 
