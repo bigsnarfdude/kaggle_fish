@@ -9,7 +9,46 @@ I put all my data unzipped into directory
 ```
 /media/datadisk/nature/
 
-
+.
+├── sample_submission_stg1.csv
+├── test_stg1
+│   └── test_images
+│       ├── img_00005.jpg
+│       ├── img_00007.jpg
+│       ├── img_00009.jpg
+...
+│       ├── img_07909.jpg
+│       ├── img_07910.jpg
+│       └── img_07921.jpg
+├── train
+│   ├── ALB
+│   │   ├── img_00003.jpg
+│   │   ├── img_00010.jpg
+│   │   ├── img_00012.jpg
+...
+│   │   ├── img07795.jpg
+│   │   ├── img_07804.jpg
+│   │   └── img_07825.jpg
+│   ├── DOL
+│   │   ├── img_00165.jpg
+│   │   ├── img_00325.jpg
+│   │   ├── img_00348.jpg
+...
+│   │   ├── img_07693.jpg
+│   │   ├── img_07728.jpg
+│   │   └── img_07898.jpg
+│   ├── LAG
+│   │   ├── img_00091.jpg
+│   │   ├── img_00176.jpg
+│   │   ├── img_00657.jpg
+...
+│       ├── img_07648.jpg
+│       ├── img_07775.jpg
+│       └── img_07901.jpg
+└── zipped
+    ├── sample_submission_stg1.csv.zip
+    ├── test_stg1.zip
+    └── train.zip
 ```
 
 
