@@ -1,63 +1,53 @@
 from keras.models import load_model
+import os
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
-import glob
-import cv2
-import pandas as pd
-import os
 
 
-np.random.seed(2016)
 img_width = 299
 img_height = 299
-FISHNAMES = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
-project_directory = '/home/ubuntu/kaggle_fish/'
-weights_path = os.path.join(project_directory, 'weights.h5')
-test_data_dir = "/media/datadisk/nature/test_stg1"
+batch_size = 32
+nbr_test_samples = 1000
 
+FishNames = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
 
-def get_im_cv2(path):
-    img = cv2.imread(path)
-    # I'm not sure what is width and height inputs to resize function ???
-    resized = cv2.resize(img, (299,299), interpolation=cv2.INTER_LINEAR)
+root_path = '/home/ubuntu/dev/kaggle_ncfm/'
+test_path = '/media/datadisk/'
+weights_path = os.path.join(root_path, 'weights.h5')
 
-    return resized
+test_data_dir = os.path.join(test_path, 'nature/test_stg1/')
 
+# test data generator for prediction
+test_datagen = ImageDataGenerator(rescale=1./255)
 
-def load_test():
-    path = os.path.join(test_data_dir, '*.jpg')
-    files = sorted(glob.glob(path))
+test_generator = test_datagen.flow_from_directory(
+        test_data_dir,
+        target_size=(img_width, img_height),
+        batch_size=batch_size,
+        shuffle = False, # Important !!!
+        classes = None,
+        class_mode = None)
 
-    X_test = []
-    X_test_id = []
-    for fh in files:
-        fhbase = os.path.basename(fh)
-        img = get_im_cv2(fh)
-        X_test.append(img)
-        X_test_id.append(fhbase)
-
-    return X_test, X_test_id
-
+test_image_list = test_generator.filenames
 
 print('Loading model and weights from training process ...')
 InceptionV3_model = load_model(weights_path)
 
-print('Predicting where da fish are using testing data ...')
-test_data, test_id = load_test()
-X_test = np.array(test_data, dtype=np.uint8)
+print('Begin to predict for testing data ...')
+predictions = InceptionV3_model.predict_generator(test_generator, nbr_test_samples)
 
-# I'm not sure about what is happening on this transpose function
-X_test = X_test.transpose((0, 1, 2, 3))
-X_test = X_test.astype('float32')
-X_test /= 255
-print(X_test.shape[0], 'test samples')
+np.savetxt(os.path.join(root_path, 'predictions.txt'), predictions)
 
-predictions = InceptionV3_model.predict(X_test)
 
-image = test_id
+print('Begin to write submission file ..')
+f_submit = open(os.path.join(root_path, 'submit.csv'), 'w')
+f_submit.write('image,ALB,BET,DOL,LAG,NoF,OTHER,SHARK,YFT\n')
+for i, image_name in enumerate(test_image_list):
+    pred = ['%.6f' % p for p in predictions[i, :]]
+    if i % 100 == 0:
+        print('{} / {}'.format(i, nbr_test_samples))
+    f_submit.write('%s,%s\n' % (os.path.basename(image_name), ','.join(pred)))
 
-submission_df = pd.DataFrame(image,columns=["image"])
-submission_df[FISHNAMES] = pd.DataFrame(predictions)
-submission_df.to_csv('submission.csv',index=False)
+f_submit.close()
 
-print('Submission file successfully generated')
+print('Submission file successfully generated!')

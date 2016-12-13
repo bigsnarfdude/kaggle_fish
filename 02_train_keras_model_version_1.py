@@ -1,6 +1,6 @@
 """
 Baseline CNN written in Keras. Takes around 4 hours on GTX1070
-and score is high enough for 143rd place on LB.
+and score is high enough for 477rd place on LB.
 
 This script assumes that you run 01_split_train_validation_version_1.py
 and is expecting data to be in train_split and val_split directories
@@ -25,13 +25,13 @@ img_width = 299
 img_height = 299
 nbr_train_samples = 3019
 nbr_validation_samples = 758
-nbr_epochs = 25
+nbr_epochs = 5
 batch_size = 32
 
 train_data_dir = '/media/datadisk/nature/train_split'
 val_data_dir = '/media/datadisk/nature/val_split'
 
-FishNames = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
+FISHNAMES = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
 
 print('Loading InceptionV3 Weights ...')
 InceptionV3_notop = InceptionV3(include_top=False, weights='imagenet',
@@ -48,7 +48,7 @@ output = Dense(8, activation='softmax', name='predictions')(output)
 InceptionV3_model = Model(InceptionV3_notop.input, output)
 #InceptionV3_model.summary()
 
-optimizer = SGD(lr = learning_rate, momentum = 0.9, decay = 0.0, nesterov = True)
+optimizer = SGD(lr = learning_rate, momentum = 0.9, decay = 0.00001, nesterov = True)
 InceptionV3_model.compile(loss='categorical_crossentropy', optimizer = optimizer, metrics = ['accuracy'])
 
 # autosave best Model
