@@ -11,7 +11,7 @@ nbr_test_samples = 1000
 
 FishNames = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
 
-root_path = '/home/ubuntu/dev/kaggle_ncfm/'
+root_path = '/home/ubuntu/dev/kaggle_fish/'
 test_path = '/media/datadisk/'
 weights_path = os.path.join(root_path, 'weights.h5')
 
